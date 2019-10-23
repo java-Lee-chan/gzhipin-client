@@ -1,13 +1,16 @@
 import {
   reqRegister,
   reqLogin,
-  reqUpdateUser
+  reqUpdateUser,
+  reqUser,
+  reqUserList
 } from '../api';
 import {
   AUTH_SUCCESS,
   ERROR_MSG,
   RECEIVE_USER,
-  RESET_USER
+  RESET_USER,
+  RECEIVE_USER_LIST
 } from './action-types';
 /* 
 包含n个action creator
@@ -25,7 +28,10 @@ const errorMsg = (msg) => ({type: ERROR_MSG, data: msg});
 const receiveUser = (user) => ({type: RECEIVE_USER, data: user});
 
 // 重置用户的同步acition
-const resetUser = (msg) => ({type: RESET_USER, data: msg});
+export const resetUser = (msg) => ({type: RESET_USER, data: msg});
+
+// 接收用户列表的同步action
+const receiveUserList = (userlist) => ({type: RECEIVE_USER_LIST, data: userlist});
 
 // 注册异步action
 export const register = (user) => {
@@ -52,7 +58,6 @@ export const register = (user) => {
     }
   }
 }
-
 
 // 登陆异步action
 export const login = (user) => {
@@ -89,6 +94,32 @@ export const updateUser = (user) => {
       dispatch(receiveUser(result.data));
     }else { // 更新失败:msg
       dispatch(resetUser(result.msg));
+    }
+  }
+}
+
+// 获取用户异步action
+export const getUser = () => {
+  return async dispatch => {
+    const response = await reqUser();
+    const result = response.data;
+    if(result.code === 0){
+      dispatch(receiveUser(result.data));
+    }else {
+      dispatch(resetUser(result.msg));
+    }
+  }
+}
+
+// 获取用户列表的异步action
+export const getUserList = (type) => {
+  return async dispatch => {
+    // 执行异步ajax请求
+    const response = await reqUserList(type);
+    const result = response.data;
+    // 得到结果后，分发一个同步ation
+    if(result.code === 0){
+      dispatch(receiveUserList(result.data));
     }
   }
 }

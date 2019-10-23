@@ -54,7 +54,7 @@ class LaobanInfo extends Component {
         <InputItem placeholder='请输入招聘职位' onChange={val => {this.handleChange('post', val)}}>招聘职位：</InputItem>
         <InputItem placeholder='请输入公司名称' onChange={val => {this.handleChange('company', val)}}>公司名称：</InputItem>
         <InputItem placeholder='请输入职位薪资' onChange={val => {this.handleChange('salary', val)}}>职位薪资：</InputItem>
-        <TextareaItem title="职位要求：" rows={3} onChange={val => {this.handleChange('info', val)}}/>
+        <TextareaItem title="职位要求：" placeholder='请输入职位要求' rows={3} onChange={val => {this.handleChange('info', val)}}/>
         <Button type='primary' onClick={this.save}>保&nbsp;&nbsp;&nbsp;存</Button>
       </div>
     )
